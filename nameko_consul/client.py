@@ -1,5 +1,7 @@
 import consul
 
+from . import CONFIG_KEY
+
 
 config_defaults = {
     'scheme': 'http',
@@ -11,9 +13,13 @@ config_defaults = {
     'verify': True,
 }
 
+
 def get_client(extra_config=None):
     config = config_defaults.copy()
     if extra_config:
         config.update(extra_config)
     return consul.Consul(**config)
 
+
+def from_config(container_config):
+    return get_client(container_config.get(CONFIG_KEY, None))
