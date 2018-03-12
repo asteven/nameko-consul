@@ -1,6 +1,6 @@
 import consul
 
-from . import CONFIG_KEY
+from .constants import CONFIG_KEY
 
 
 config_defaults = {
