@@ -1,1 +1,1 @@
-CONFIG_KEY = 'CONSUL'
+CONFIG_KEY = 'consul'
