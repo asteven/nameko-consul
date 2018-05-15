@@ -6,12 +6,9 @@ from nameko.extensions import DependencyProvider
 
 import consul
 
-from . import constants
+from . import exceptions
 from . import client
-
-
-class ConsulConnectionError(Exception):
-    pass
+from . import constants
 
 
 class Consul(DependencyProvider):
@@ -29,6 +26,6 @@ class Consul(DependencyProvider):
         except OSError as e:
             error_message = 'Failed to connect to consul.'
             logging.error(error_message)
-            raise ConsulConnectionError(error_message) from e
+            raise exceptions.ConsulConnectionError(error_message) from e
         return self.consul
 

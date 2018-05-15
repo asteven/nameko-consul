@@ -1,0 +1,2 @@
+class ConsulConnectionError(Exception):
+    pass

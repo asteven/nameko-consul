@@ -1,9 +1,12 @@
+import logging
+
 from nameko.extensions import Entrypoint
 
 import consul
 
-from . import constants
+from . import exceptions
 from . import client
+from . import constants
 
 
 class ConsulWatchEntrypoint(Entrypoint):
@@ -21,11 +24,16 @@ class ConsulWatchEntrypoint(Entrypoint):
         )
 
     def run(self):
-        # get initial index
-        index, data = self.poll()
-        while True:
-            index, data = self.poll(index)
-            self.handle_watch(data)
+        try:
+            # get initial index
+            index, data = self.poll()
+            while True:
+                    index, data = self.poll(index)
+                    self.handle_watch(data)
+        except OSError as e:
+            error_message = 'Failed to connect to consul.'
+            logging.error(error_message)
+            raise exceptions.ConsulConnectionError(error_message) from e
 
     def handle_watch(self, *args, **kwargs):
         context_data = {}
